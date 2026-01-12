@@ -1,0 +1,330 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>High Accuracy Location</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      width: 380px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .map-btn {
+      background: #16a34a;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+   
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>📍 High Accuracy Location</h2>
+
+    <input id="latitude" placeholder="Latitude"  />
+    <input id="longitude" placeholder="Longitude" />
+    <input id="accuracy" placeholder="Accuracy"  />
+
+    <button id="hacbtn" onclick="getLocation()">📡 Get High Accuracy Location</button>
+
+    <button
+      id="mapBtn"
+      class="map-btn"
+      onclick="openInMaps()" >
+      🗺️ Open in Google Maps
+    </button>
+
+    <p id="error" class="error"></p>
+  </div>
+
+  <script>
+    let watchId = null;
+
+    function setError(message) {
+      document.getElementById("error").innerText = message;
+    }
+
+    function getLocation() {
+      if (!navigator.geolocation) {
+        setError("Geolocation not supported");
+        return;
+      }
+
+      setError("Fetching high-accuracy GPS location...");
+
+      watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const accuracy = position.coords.accuracy;
+
+          // ✅ Accept ONLY accuracy ≤ 21 meters
+          if (accuracy <= 21) {
+            document.getElementById("latitude").value = latitude.toFixed(6);
+            document.getElementById("longitude").value = longitude.toFixed(6);
+            document.getElementById("accuracy").value =
+              Math.round(accuracy) + " meters";
+
+            document.getElementById("mapBtn").disabled = false;
+            setError("");
+
+            // Stop watching once accurate location is found
+            navigator.geolocation.clearWatch(watchId);
+          } else {
+            setError(
+              `Low accuracy (${Math.round(
+                accuracy
+              )}m). Move outdoors & enable GPS.`
+            );
+          }
+        },
+        (err) => {
+          setError(err.message);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 30000,
+          maximumAge: 0,
+        }
+      );
+    }
+
+    function openInMaps() {
+      const lat = document.getElementById("latitude").value;
+      const lng = document.getElementById("longitude").value;
+
+      if (!lat || !lng) {
+        setError("Location not available yet");
+        return;
+      }
+
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&zoom=18`;
+      window.open(mapUrl, "_blank");
+    }
+  </script>
+
+</body>
+</html> -->
+<!-- `https://www.google.com/maps/@${lat},${lng},18z`; -->
+<!-- `https://www.google.com/maps/@${lat},${lng},20z`; -->
+<!-- `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&zoom=18` -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>High Accuracy Location</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      width: 380px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 11px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .map-btn {
+      background: #16a34a;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>📍 High Accuracy Location</h2>
+
+    <input id="latitude" placeholder="Latitude" readonly/>
+    <input id="longitude" placeholder="Longitude" readonly />
+    <input id="accuracy" placeholder="Accuracy" readonly />
+
+    <button onclick="getLocation()">📡 Get High Accuracy Location</button>
+
+    <button
+      id="mapBtn"
+      class="map-btn"
+      onclick="openInMaps()"
+      disabled>
+      🗺️ Open in Google Maps
+    </button>
+
+    <p id="error" class="error"></p>
+  </div>
+
+  <script>
+    let watchId = null;
+
+    function setError(message) {
+      document.getElementById("error").innerText = message;
+    }
+
+    function setLatLong(latId, lngId, accId, latitude, longitude, accuracy) {
+      document.getElementById(latId).value = latitude.toFixed(6);
+      document.getElementById(lngId).value = longitude.toFixed(6);
+      document.getElementById(accId).value =
+        Math.round(accuracy) + " meters";
+    }
+
+    function getLocation() {
+      if (!navigator.geolocation) {
+        setError("Geolocation not supported");
+        return;
+      }
+
+      setError("Fetching high-accuracy GPS location...");
+
+      watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude, accuracy } = position.coords;
+
+          // ✅ Accept ONLY accuracy ≤ 21 meters
+          if (accuracy <= 21) {
+
+            setLatLong(
+              "latitude","longitude","accuracy",
+              latitude,longitude,accuracy
+            );
+
+            document.getElementById("mapBtn").disabled = false;
+            setError("");
+
+            // Stop watching once accurate
+            navigator.geolocation.clearWatch(watchId);
+          } else {
+            setError(
+              `Low accuracy (${Math.round(accuracy)}m). Move outdoors & enable GPS.`
+            );
+          }
+        },
+        (err) => {
+          setError(err.message);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 30000,
+          maximumAge: 0,
+        }
+      );
+    }
+
+    function openInMaps() {
+      const lat = document.getElementById("latitude").value;
+      const lng = document.getElementById("longitude").value;
+
+      if (!lat || !lng) {
+        setError("Location not available yet");
+        return;
+      }
+
+      const mapUrl =
+        `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&zoom=18`;
+
+      window.open(mapUrl, "_blank");
+    }
+  </script>
+
+</body>
+</html>
+
